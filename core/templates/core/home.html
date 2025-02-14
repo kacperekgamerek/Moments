@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
 <h2>Ostatnie wpisy</h2>
 
 <div class="posts-container">
@@ -21,8 +30,8 @@
     {% endfor %}
 </div>
 
-<div id="fullscreen-image" class="hidden">
-    <span class="close" onclick="closeImage()">&times;</span>
+<div id="fullscreen-image">
+    <span class="close">&times;</span>
     <img id="expanded-img">
 </div>
 
@@ -71,28 +80,6 @@
         max-width: 90%;
         max-height: 90%;
     }
-    .close {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        font-size: 40px;
-        color: white;
-        cursor: pointer;
-    }
 </style>
-
-<script>
-    function openImage(img) {
-        let fullscreen = document.getElementById("fullscreen-image");
-        let expandedImg = document.getElementById("expanded-img");
-        
-        expandedImg.src = img.src;
-        fullscreen.style.display = "flex";
-    }
-
-    function closeImage() {
-        document.getElementById("fullscreen-image").style.display = "none";
-    }
-</script>
 
 {% endblock %}
