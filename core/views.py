@@ -4,20 +4,50 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import PostForm
 from .models import Post
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderTimedOut
 
 def home(request):
     posts = Post.objects.all().order_by('-created_at')
     return render(request, 'core/home.html', {'posts': posts})
 
+def get_location_name(lat, lon):
+    geolocator = Nominatim(user_agent="moments_app")
+    try:
+        location = geolocator.reverse(f"{lat}, {lon}", exactly_one=True)
+        return location.address if location else "Unknown Location"
+    except GeocoderTimedOut:
+        return "Location unavailable"
+
+@csrf_exempt
+def update_location(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            lat = data.get('lat')
+            lon = data.get('lon')
+            if lat and lon:
+                location_name = get_location_name(lat, lon)
+                return JsonResponse({'location': location_name})
+            return JsonResponse({'error': 'Missing coordinates'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
 def add_post(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
+            
+            # Pobierz lokalizację z ukrytego pola formularza
+            location = request.POST.get('location', 'Unknown Location')
+            post.location = location
+            
             post.save()
             return redirect('home')
     else:
@@ -35,6 +65,7 @@ def login_view(request):
         messages.error(request, 'Błędne dane logowania')
         return redirect('home')
 
+
 def register_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -42,9 +73,11 @@ def register_view(request):
             form.save()
             messages.success(request, 'Rejestracja udana! Zaloguj się')
             return redirect('home')
-        for error in form.errors.values():
-            messages.error(request, error)
-        return redirect('home')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+    return redirect('home')
 
 def logout_view(request):
     logout(request)

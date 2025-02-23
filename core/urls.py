@@ -4,7 +4,8 @@ from .views import (
     add_post, 
     login_view, 
     register_view,
-    logout_view
+    logout_view,
+    update_location
 )
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('register/', register_view, name='register'),
     path('logout/', logout_view, name='logout'),
+    path('update-location/', update_location, name='update_location'),
 ]

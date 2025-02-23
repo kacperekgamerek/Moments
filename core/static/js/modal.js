@@ -1,35 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('authModal');
-    const modalOverlay = document.createElement('div');
-    modalOverlay.className = 'modal-overlay hidden';
-    document.body.appendChild(modalOverlay);
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
 
-    // Obsługa przycisków
-    document.querySelectorAll('[data-modal-toggle]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const modalType = btn.dataset.modalToggle;
-            showModal(modalType);
-        });
+    // Funkcje do przełączania formularzy
+    function showLogin() {
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+    }
+
+    function showRegister() {
+        registerForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+    }
+
+    // Obsługa przycisków w headerze
+    document.getElementById('openLogin').addEventListener('click', (e) => {
+        e.preventDefault();
+        showLogin();
+        modal.classList.remove('hidden');
+    });
+
+    document.getElementById('openRegister').addEventListener('click', (e) => {
+        e.preventDefault();
+        showRegister();
+        modal.classList.remove('hidden');
+    });
+
+    // Obsługa linków w formularzach
+    document.getElementById('showRegister').addEventListener('click', (e) => {
+        e.preventDefault();
+        showRegister();
+    });
+
+    document.getElementById('showLogin').addEventListener('click', (e) => {
+        e.preventDefault();
+        showLogin();
     });
 
     // Zamknięcie modala
-    modalOverlay.addEventListener('click', closeModal);
-    document.querySelectorAll('[data-modal-close]').forEach(btn => {
-        btn.addEventListener('click', closeModal);
+    document.getElementById('closeModal').addEventListener('click', () => {
+        modal.classList.add('hidden');
     });
 
-    function showModal(type) {
-        document.querySelectorAll('.auth-form').forEach(form => {
-            form.classList.add('hidden');
-        });
-        document.getElementById(`${type}Form`).classList.remove('hidden');
-        modal.classList.remove('hidden');
-        modalOverlay.classList.remove('hidden');
-    }
-
-    function closeModal() {
-        modal.classList.add('hidden');
-        modalOverlay.classList.add('hidden');
-    }
+    // Zamknięcie przy kliknięciu na tło
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+        }
+    });
 });

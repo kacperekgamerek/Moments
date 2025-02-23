@@ -1,9 +1,62 @@
 {% extends 'base.html' %}
+
 {% block content %}
 <h2>Dodaj zdjęcie</h2>
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" id="postForm">
     {% csrf_token %}
     {{ form.as_p }}
+    <input type="hidden" name="location" id="locationField">
+    <div id="locationInfo">
+        <p>Lokalizacja: <span id="locationText">Pobieranie lokalizacji...</span></p>
+    </div>
     <button type="submit">Opublikuj</button>
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const locationField = document.getElementById('locationField');
+        const locationText = document.getElementById('locationText');
+    
+        if (navigator.geolocation) {
+            console.log('Przeglądarka obsługuje geolokalizację');
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    console.log('Pobrano współrzędne:', position.coords);
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    
+                    fetch('/update-location/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify({lat, lon})
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Odpowiedź z serwera:', data);
+                        if (data.location) {
+                            locationText.textContent = data.location;
+                            locationField.value = data.location;
+                        } else {
+                            locationText.textContent = 'Nie udało się pobrać lokalizacji';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Błąd:', error);
+                        locationText.textContent = 'Błąd podczas pobierania lokalizacji';
+                    });
+                },
+                (error) => {
+                    console.error('Błąd geolokalizacji:', error);
+                    locationText.textContent = 'Nie udało się pobrać lokalizacji';
+                }
+            );
+        } else {
+            console.log('Przeglądarka nie obsługuje geolokalizacji');
+            locationText.textContent = 'Twoja przeglądarka nie obsługuje geolokalizacji';
+        }
+    });
+</script>
 {% endblock %}
