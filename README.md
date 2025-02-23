@@ -28,9 +28,6 @@
 - Aplikacja automatycznie pobiera lokalizację użytkownika za pomocą Geolocation API.
 - Lokalizacja jest konwertowana na czytelną nazwę (np. "Warszawa, Polska") za pomocą API OpenStreetMap Nominatim.
 
-### 5. **Responsywny design**
-- Aplikacja jest dostosowana do różnych rozmiarów ekranów (komputery, tablety, telefony).
-
 ---
 
 ## Wymagania systemowe
