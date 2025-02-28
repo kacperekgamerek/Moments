@@ -22,8 +22,9 @@
             <p><strong>{{ post.created_at|date:"d.m.Y H:i" }}</strong> | {{ post.user.username }}</p>
             <p>{{ post.description }}</p>
             <div class="post-actions">
-                <button class="like-button">❤️ {{ post.likes }}</button>
-                <button class="comment-button">💬 Komentarze</button>
+                <button class="like-button" data-post-id="{{ post.id }}">
+                    ❤️ <span class="like-count">{{ post.likes_count }}</span>
+                </button>
             </div>
         </div>
     </div>

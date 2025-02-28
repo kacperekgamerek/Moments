@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '192.168.56.101',
-    'e59a-89-64-8-103.ngrok-free.app',
+    '.lhr.life',
 ]
 
 
@@ -134,7 +134,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://*.ngrok-free.app',
+    'https://*.lhr.life',
 ]
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True

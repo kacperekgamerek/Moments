@@ -5,7 +5,8 @@ from .views import (
     login_view, 
     register_view,
     logout_view,
-    update_location
+    update_location,
+    toggle_like
 )
 
 urlpatterns = [
@@ -15,4 +16,5 @@ urlpatterns = [
     path('register/', register_view, name='register'),
     path('logout/', logout_view, name='logout'),
     path('update-location/', update_location, name='update_location'),
+    path('toggle-like/<int:post_id>/', toggle_like, name='toggle_like'),
 ]

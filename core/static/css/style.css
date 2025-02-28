@@ -1,4 +1,3 @@
-/* Style podstawowe */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -31,7 +30,6 @@ nav {
     cursor: pointer;
 }
 
-/* static/css/style.css */
 .hidden {
     display: none;
 }
@@ -82,7 +80,6 @@ h2 {
     display: flex;
 }
 
-/* Formularze */
 #registerForm {
     display: none;
 }
@@ -140,4 +137,22 @@ h2 {
 
 #addpost {
     margin: 10px;
+}
+
+.like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.like-button.liked {
+    color: red;
+}
+
+.like-count {
+    font-size: 1rem;
 }

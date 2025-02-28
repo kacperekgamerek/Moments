@@ -50,3 +50,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+//-------------------------------------
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Pobierz token CSRF z meta tagu
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+    // Obsługa like'ów
+    document.querySelectorAll('.like-button').forEach(button => {
+        button.addEventListener('click', async () => {
+            const postId = button.dataset.postId;
+            const likeCountSpan = button.querySelector('.like-count');
+
+            try {
+                const response = await fetch(`/toggle-like/${postId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken  // Przekaż token CSRF
+                    },
+                });
+
+                const data = await response.json();
+
+                if (data.liked) {
+                    button.classList.add('liked');
+                } else {
+                    button.classList.remove('liked');
+                }
+
+                // Zaktualizuj liczbę like'ów
+                likeCountSpan.textContent = data.likes_count;
+            } catch (error) {
+                console.error('Błąd:', error);
+            }
+        });
+    });
+});

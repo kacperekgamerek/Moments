@@ -9,6 +9,35 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+from .models import Like, Post
+
+@login_required
+@require_POST
+def toggle_like(request, post_id):
+    post = Post.objects.get(id=post_id)
+    user = request.user
+
+    # Sprawdź, czy użytkownik już polubił ten post
+    like, created = Like.objects.get_or_create(user=user, post=post)
+
+    if not created:
+        # Jeśli like już istnieje, usuń go (odlike'uj)
+        like.delete()
+        post.likes_count -= 1
+        liked = False
+    else:
+        # Jeśli like nie istnieje, dodaj go
+        post.likes_count += 1
+        liked = True
+
+    post.save()
+
+    return JsonResponse({
+        'liked': liked,
+        'likes_count': post.likes_count
+    })
 
 def home(request):
     posts = Post.objects.all().order_by('-created_at')
@@ -82,3 +111,4 @@ def register_view(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
+
