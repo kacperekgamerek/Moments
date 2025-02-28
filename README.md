@@ -47,8 +47,10 @@
 
 ### 1. Sklonuj repozytorium
 
+    ```bash
     git clone https://github.com/kacperekgamerek/Moments.git
     cd Moments
+    ```
     
 ### 2. Utwórz i aktywuj środowisko wirtualne
 
