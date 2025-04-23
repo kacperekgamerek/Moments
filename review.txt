@@ -1,0 +1,46 @@
+[] Ogólne wrażenia z użytkowania aplikacji, podsumowanie oceny
+    -strona śmiga, wrażenia jak najbardziej poztywne
+
+Funkcjonalność
+--------------
+[] znalezione blędy w dostępie do ścieżek
+    -możliwość wejścia na /add bez zalogowania się po czym przy próbie dodania zdjęcia wyskakuje błąd
+
+[] nie znaleziono blędów w danych wejściowych szablonów
+[] logowanie działa
+[] wylogowanie działa
+[] nie można stworzyć dwóch użytkowników o tej samej nazwie, etc.
+[] geolokalizacja śmiga
+
+
+User Experience (UX)
+--------------------
+[] Spójność stylistyczna
+    -strona estetyczna, kocham wygląd wpisów, chociaż zamieniłbym lokalizację z opisem zdjęcia żeby był on bardziej wyeksponowany
+    -trochę nie pasuje mi kolor przycisków na stronie głównej i zmieniłbym go na jakiś bardziej stonowany ale to tylko moja opinia
+    -brakuje też jakiegoś css dla formularza dodawania zdjęcia
+    -fajne okienka na rejestrację i logowanie
+
+[] Doszlifowanie interfejsu
+    -interfejs spoko, czytelny
+    -przeszkadza mi tylko trochę przycisk "Strona główna" na stronie głównej, fajnie by było jakby pojawiał się dopiero przy wejściu na dodawanie zdjęcia
+
+[] Kolejność tabów w formularzach i domyślny focus
+    -tbh nwm
+
+Jakość kodu
+-----------
+[] Porządek w importach
+    -importy wyglądają ok, chociaż w views.py jest dwa razy importowany model Post (6 i 14 linijka)
+
+[] Za mało/za dużo komentarzy?
+    -komentarze są, ale imo mogło być ich trochę więcej
+
+Inne uwagi
+----------
+[] README z instrukcją uruchomienia, dodatkową dokumentacją
+    -ładne README, tylko to "```bash" w instrukcji uruchomienia nie wyświetla się jak powinno
+
+[] `__pycache__` i baza danych w repo?
+    -pycache jest w repo mimo próby usunięcia go w commicie
+    -spoko byłby .gitignore, można z neta gotowy jakiś do projektów z django skopiować
